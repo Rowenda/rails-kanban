@@ -1,0 +1,21 @@
+<div data-controller="kanban">
+  <form data-action="submit->kanban#create">
+    <input type="text" data-kanban-target="input" placeholder="Nouvelle tâche..." />
+    <button type="submit">Ajouter</button>
+  </form>
+
+  <div class="grid grid-cols-3 gap-4 mt-4">
+    <% Task.statuses.keys.each do |status| %>
+      <div class="kanban-column" data-status="<%= status %>">
+        <h3><%= status.capitalize %></h3>
+        <div data-kanban-target="column" data-status="<%= status %>">
+          <% @tasks.where(status: status).each do |task| %>
+            <div class="task" draggable="true" data-id="<%= task.id %>">
+              <%= task.title %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
